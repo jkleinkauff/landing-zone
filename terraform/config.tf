@@ -10,9 +10,9 @@ terraform {
 
 
   backend "s3" {
-    bucket         = "jho-terraform"
-    key            = "landing-zone/general/terraform.tfstate"
-    region         = "us-east-2"
+    bucket = "jho-terraform"
+    key    = "landing-zone/general/terraform.tfstate"
+    region = "us-east-2"
   }
 
 }
