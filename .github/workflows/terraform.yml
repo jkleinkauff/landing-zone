@@ -75,6 +75,9 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
+      
+    - name: cd into Terraform folder
+      run: cd terraform
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
