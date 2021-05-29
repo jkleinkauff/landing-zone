@@ -60,14 +60,12 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: ./terraform
 
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v2
-
-    - name: cd into Terraform folder
-      run: cd terraform
       
     - name: pwd
       run: pwd
