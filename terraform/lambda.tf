@@ -1,7 +1,14 @@
-provider "aws" {
-  profile = "default"
-  region  = "us-east-2"
+
+data "archive_file" "lambda_package" {
+  type        = "zip"
+  output_path = "${path.module}/lambda_package.zip"
+
+  source {
+    filename = "lambda.js"
+    content  = file("../lambda.js")
+  }
 }
+
 
 resource "aws_iam_role" "iam_for_lambda" {
   name = "iam_for_lambda"
@@ -25,11 +32,16 @@ EOF
 
 resource "aws_lambda_function" "test_lambda" {
   # filename      = "../lambda.zip"
-  s3_bucket     = "lambda-bucket-jho"
-  s3_key        = "lambda.zip"
-  function_name = "lambda_function_name2"
-  role          = aws_iam_role.iam_for_lambda.arn
-  handler       = "exports.test"
+  # s3_bucket     = aws_s3_bucket.bucket.bucket                 #"lambda-bucket-jho"
+  # s3_key        = aws_s3_bucket_object.lambda-abc-package.key #"lambda.zip"
+
+
+  function_name    = "lambda_function_name2"
+  filename         = data.archive_file.lambda_package.output_path
+  source_code_hash = data.archive_file.lambda_package.output_base64sha256
+  role             = aws_iam_role.iam_for_lambda.arn
+  handler          = "exports.test"
+  publish          = true
 
   # The filebase64sha256() function is available in Terraform 0.11.12 and later
   # For Terraform 0.11.11 and earlier, use the base64sha256() function and the file() function:
