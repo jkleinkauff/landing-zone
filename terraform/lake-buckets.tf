@@ -28,3 +28,4 @@ resource "aws_s3_bucket_object" "dummy_raw_zone" {
   # etag = "${md5(file("path/to/file"))}"
   etag = filemd5("../lake_raw_data/readme.txt")
 }
+#dummy
